@@ -1,0 +1,38 @@
+package Insert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+public class Insert {
+
+    WebDriver driver;
+
+    public Insert (WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void paste() {
+        WebElement newPaste = (new WebDriverWait(driver, Duration.ofSeconds(5)))
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("postform-text")));
+        newPaste.sendKeys("Hello from WebDriver");
+    }
+    public void dropdown() {
+        WebElement dropdown = (new WebDriverWait(driver, Duration.ofSeconds(5)))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='w0']/div[5]/div[1]/div[2]/div/span/span[1]/span/span[2]")));
+        dropdown.click();
+    }
+    public void setMinutes() {
+        WebElement setMinutes = (new WebDriverWait(driver, Duration.ofSeconds(5)))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//li[text()='10 Minutes']")));
+        setMinutes.click();
+    }
+
+    public void PasteName() {
+        WebElement pasteName =  (new WebDriverWait(driver, Duration.ofSeconds(5)))
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("postform-name")));
+        pasteName.sendKeys("helloweb");
+    }
+}

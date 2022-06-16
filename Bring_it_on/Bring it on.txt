@@ -1,0 +1,84 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import java.time.Duration;
+import java.util.List;
+
+public class Bring_It_On {
+            WebDriver driver = new ChromeDriver();
+        
+            // Navigate to Url
+            driver.get("https://pastebin.com/");
+            driver.manage().window().maximize();
+
+            // Manage cookies
+
+            WebElement close = new WebDriverWait(driver, Duration.ofSeconds(3)).until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='qc-cmp2-ui']//button[2]")));
+            close.click();
+
+            // Code
+
+            WebElement newPaste = driver.findElement(By.id("postform-text"));
+            newPaste.sendKeys("git config --global user.name  'New Sheriff in Town'\n" +
+                    "git reset $(git commit-tree HEAD^{tree} -m 'Legacy code')\n" +
+                    "git push origin master --force");
+
+            //  Syntax Highlighting
+
+            WebElement syntax = driver.findElement(By.xpath("//*[@id='w0']/div[5]/div[1]/div[1]/div/span/span[1]/span/span[2]"));
+            syntax.click();
+
+            WebElement setSyntax = driver.findElement(By.xpath("//li[text()='Bash']"));
+            setSyntax.click();
+
+            // Select paste expipration
+
+            WebElement dropdown = driver.findElement(By.xpath("//*[@id='w0']/div[5]/div[1]/div[2]/div/span/span[1]/span/span[2]"));
+            dropdown.click();
+
+            WebElement setMinutes = driver.findElement(By.xpath("//li[text()='10 Minutes']"));
+            setMinutes.click();
+
+            // paste Name
+
+            WebElement pasteName =  driver.findElement(By.id("postform-name"));
+            pasteName.sendKeys("how to gain dominance among developers");
+
+            //create new paste
+
+            WebElement submit = driver.findElement(By.cssSelector("button[type='submit']"));
+            submit.click();
+
+            //manage cookies
+            WebElement closeAgain = new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='qc-cmp2-ui']//button[2]")));
+            closeAgain.click();
+
+            // Assertion of title
+
+            String title = driver.getTitle();
+            assert title.contains("how to gain dominance among developers");
+
+            // Assertion of Syntax
+
+            String bash = driver.findElement(By.xpath("//*[text()='Bash]")).getText();
+            Assert.assertEquals(bash, "Bash");
+
+            //Assertion of code
+
+            List<WebElement> codeList = driver.findElements(By.tagName("li"));
+                for(WebElement c: codeList){
+                    String text = c.getText();
+                    String result = "" + text;
+                    Assert.assertEquals(result, "git config --global user.name 'New Sheriff in Town' git reset $(git commit-tree HEAD^{tree} -m 'Legacy code') git push origin master --force");
+                };
+
+   
+//          driver.quit();
+    
+    }

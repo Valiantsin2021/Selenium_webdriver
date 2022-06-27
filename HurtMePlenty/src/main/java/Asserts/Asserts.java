@@ -53,7 +53,7 @@ public class Asserts {
         calculator.click();
     }
 
-//    Insert data to estimate
+//    Preparation of the page and insert data to estimate
 
     public void setComputeEngine() {
         WebElement iframe = new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -120,7 +120,7 @@ public class Asserts {
                 .until(ExpectedConditions.presenceOfElementLocated(GPUTypeDropdown));
         GPUList.click();
         WebElement GPU = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(GPUType));
+                .until(ExpectedConditions.visibilityOfElementLocated(GPUType));
         GPU.click();
     }
 
@@ -129,7 +129,7 @@ public class Asserts {
                 .until(ExpectedConditions.presenceOfElementLocated(numberOfGPUsDropdown));
         numberGPUList.click();
         WebElement numberGPU = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(numberOfGPUs));
+                .until(ExpectedConditions.visibilityOfElementLocated(numberOfGPUs));
         numberGPU.click();
     }
 
@@ -139,24 +139,25 @@ public class Asserts {
                 .until(ExpectedConditions.presenceOfElementLocated(localSSDDropdown));
         SSDList.click();
         WebElement SSD = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(localSSD));
+                .until(ExpectedConditions.visibilityOfElementLocated(localSSD));
         SSD.click();
 
     }
 
     public void setDataCenterLocation() {
-        WebElement dataCenterList = new WebDriverWait(driver, Duration.ofSeconds(10))
+        WebElement dataCenterList = new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.presenceOfElementLocated(dataCenterLocationDropdown));
         dataCenterList.click();
-        WebElement input = driver.findElement(By.cssSelector("#input_117"));
+        WebElement input = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated((By.cssSelector("#input_117"))));
         input.sendKeys("Frankfurt", Keys.TAB, Keys.ENTER);
     }
 
     public void setCommitedUsage() {
-        WebElement usageList = new WebDriverWait(driver, Duration.ofSeconds(10))
+        WebElement usageList = new WebDriverWait(driver, Duration.ofSeconds(12))
                 .until(ExpectedConditions.presenceOfElementLocated(commitedUsageDropdown));
         usageList.click();
-        WebElement usage = new WebDriverWait(driver, Duration.ofSeconds(10))
+        WebElement usage = new WebDriverWait(driver, Duration.ofSeconds(12))
                 .until(ExpectedConditions.elementToBeClickable(commitedUsage));
         usage.click();
 
@@ -165,7 +166,7 @@ public class Asserts {
         driver.findElement(addToEstimate).click();
     }
 
-//    Assert data received in estimate is correct
+//    Check data received in estimate is correct
 
     public void VMClass(){
         String VMClassAssert = new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -194,6 +195,10 @@ public class Asserts {
         Assert.assertEquals(commitmentTermAssert, "Commitment term: 1 Year");
     }
 
-
+    public void monthlyRent(){
+        String commitmentTermAssert = new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("b.ng-binding"))).getText();
+        Assert.assertEquals(commitmentTermAssert, "Estimated Component Cost: USD 1,081.20 per 1 month");
+    }
 
 }
